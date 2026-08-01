@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#0d0d11">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MyTube">
+  <link rel="apple-touch-icon" href="./images/default-avatar.svg">
+  <title>MyTube</title>
+  <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="./index.html" class="menu_logo"><img src="./images/Без названия93_20260715174426.png" alt="Logo"><span class="live-dot" aria-hidden="true"></span></a>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="search-input" placeholder="Найти видео..." autocomplete="off">
+    </div>
+
+    <div class="header-right">
+      <nav class="menu">
+        <a href="./index.html" class="menu_link-active">Главная</a>
+        <a href="#" class="menu_link" id="google-auth-btn">Войти</a>
+        <a href="#" class="menu_link profile-nav-btn" id="profile-nav-btn" style="display:none;">
+          <img src="./images/default-avatar.svg" alt="" class="profile-nav-avatar">
+          <span>@профиль</span>
+        </a>
+      </nav>
+
+      <div class="faq">
+        <button class="faq_button" id="faq-toggle-btn" aria-haspopup="true" aria-expanded="false" aria-label="Меню">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="side-drawer-backdrop" class="side-drawer-backdrop"></div>
+  <nav class="side-drawer" id="faq-settings" aria-label="Меню сайта">
+    <div class="side-drawer-head">
+      <span>Меню</span>
+      <button id="side-drawer-close" class="side-drawer-close" aria-label="Закрыть">&times;</button>
+    </div>
+    <a href="./faq.html" class="side-drawer-tab"><span class="tab-ico">❓</span>FAQ (Помощь)</a>
+    <a href="#" id="open-upload-modal" class="side-drawer-tab"><span class="tab-ico">🎬</span>Создать видео</a>
+    <a href="#" id="open-donate-modal" class="side-drawer-tab"><span class="tab-ico">💛</span>Поддержать автора</a>
+    <a href="#" id="open-ads-modal" class="side-drawer-tab"><span class="tab-ico">📢</span>Разместить рекламу</a>
+    <a href="#" id="reset-layout-btn" class="side-drawer-tab"><span class="tab-ico">↺</span>Сбросить раскладку дашборда</a>
+  </nav>
+
+  <div class="filters-bar">
+    <select id="sort-select" title="Сортировка">
+      <option value="new">Новые</option>
+      <option value="popular">По просмотрам</option>
+      <option value="liked">По лайкам</option>
+    </select>
+    <div id="tag-chips" class="tag-chips"></div>
+  </div>
+
+  <div id="ad-slot-header" class="ad-slot ad-slot-header" hidden></div>
+
+<main class="content-section">
+  <div id="dashboard" class="dashboard"></div>
+</main>
+
+<div id="register-modal" class="modal">
+  <div class="modal-content">
+    <h3 id="auth-title">Регистрация на MTube</h3>
+
+    <label>@username:</label>
+    <input type="text" id="reg-username" placeholder="ivan_mtube">
+    <span id="username-error" class="error-text"></span>
+
+    <label>Пароль:</label>
+    <input type="password" id="reg-password">
+
+    <div id="confirm-password-group">
+      <label>Повторите пароль:</label>
+      <input type="password" id="reg-confirm-password">
+      <span id="password-error" class="error-text"></span>
+    </div>
+
+    <button id="submit-register-btn">Зарегистрироваться</button>
+
+    <p class="switch-text">
+      <a href="#" id="switch-auth-btn">Уже есть аккаунт? Войти</a>
+    </p>
+
+    <div id="login-2fa-step" hidden>
+      <hr class="settings-divider">
+      <label>Код из приложения-аутентификатора:</label>
+      <input type="text" id="login-2fa-code" maxlength="6" inputmode="numeric" placeholder="123456">
+      <span id="login-2fa-error" class="error-text"></span>
+      <button id="login-2fa-submit-btn" class="confirm-btn">Подтвердить вход</button>
+    </div>
+  </div>
+</div>
+
+<div id="upload-modal" class="modal">
+  <div class="modal-content">
+    <h3>Добавить новое видео с устройства</h3>
+
+    <label>Выберите видеофайл:</label>
+    <input type="file" id="video-file" accept="video/*">
+
+    <label>Название видео:</label>
+    <input type="text" id="video-title" placeholder="Введите название">
+
+    <label>Описание:</label>
+    <textarea id="video-desc" placeholder="О чём ваше видео? Совет: строка вида «2:30 Название главы» станет главой с быстрым переходом."></textarea>
+
+    <label>Теги (через запятую):</label>
+    <input type="text" id="video-tags" placeholder="vlog, музыка, туториал">
+
+    <div id="upload-progress-wrap" style="display:none;">
+      <div style="background:var(--bg-elevated); border-radius:8px; overflow:hidden; height:22px;">
+        <div id="upload-progress-bar" style="background:var(--accent-grad); height:100%; width:0%; color:white; font-size:11px; font-weight:700; line-height:22px; text-align:center; transition:width .2s;"></div>
+      </div>
+    </div>
+
+    <button id="submit-video-btn">Опубликовать видео</button>
+  </div>
+</div>
+
+<div id="player-modal" class="modal">
+  <div class="player-content">
+    <span class="close-player">&times;</span>
+    <div class="player-video-wrap" id="ctp-main-root">
+      <video id="main-video-player" playsinline webkit-playsinline></video>
+    </div>
+    <div class="player-body">
+      <h2 id="player-video-title"></h2>
+
+      <div id="player-chapters" class="chapters-row"></div>
+
+
+      <div class="author-block">
+        <img id="player-video-avatar" class="player-avatar" src="./images/default-avatar.svg" alt="">
+        <span id="player-video-author"></span>
+        <button id="subscribe-btn">Подписаться</button>
+      </div>
+      <div class="actions-block">
+        <button id="like-btn">❤️ Лайк (<span id="like-count">0</span>)</button>
+        <button id="watch-later-btn">🔖 Позже</button>
+        <button id="player-donate-btn">💛 Поддержать</button>
+      </div>
+      <div id="ad-slot-sidebar" class="ad-slot ad-slot-sidebar" hidden></div>
+      <p id="player-video-desc"></p>
+      <div class="comments-section">
+        <h4>Комментарии</h4>
+        <div id="reply-indicator" class="reply-indicator" hidden>
+          Ответ для <b id="reply-indicator-name"></b>
+          <button id="cancel-reply-btn" type="button" title="Отменить ответ">✕</button>
+        </div>
+        <div class="comment-form">
+          <input type="text" id="new-comment-text" placeholder="Напишите комментарий..." enterkeyhint="send">
+          <button id="send-comment-btn">Отправить</button>
+        </div>
+        <div id="comments-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="profile-settings-modal" class="modal">
+  <div class="modal-content">
+    <h3>Настройки профиля</h3>
+
+    <div style="text-align: center; margin-bottom: 4px;">
+      <img id="profile-preview-avatar" src="./images/default-avatar.svg" alt="Аватар" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #555; display: inline-block;">
+    </div>
+
+    <label>Загрузить новую аватарку:</label>
+    <input type="file" id="profile-avatar-input" accept="image/*">
+
+    <label>Отображаемое имя:</label>
+    <input type="text" id="profile-display-name-input" placeholder="Ваше имя">
+
+    <button id="save-profile-btn" class="confirm-btn">Сохранить изменения</button>
+
+    <div class="prefs-block">
+      <label>Личная тема оформления (видна только вам):</label>
+      <div id="accent-swatches" class="accent-swatches">
+        <button class="swatch" data-a="#ff3b5c" data-b="#ff7a45" style="--sw-a:#ff3b5c;--sw-b:#ff7a45;" title="Tally red"></button>
+        <button class="swatch" data-a="#8b93ff" data-b="#5ad1ff" style="--sw-a:#8b93ff;--sw-b:#5ad1ff;" title="Violet ice"></button>
+        <button class="swatch" data-a="#31d0aa" data-b="#9dff5c" style="--sw-a:#31d0aa;--sw-b:#9dff5c;" title="Signal green"></button>
+        <button class="swatch" data-a="#ffb020" data-b="#ff5c5c" style="--sw-a:#ffb020;--sw-b:#ff5c5c;" title="Sunset"></button>
+        <button class="swatch" data-a="#ff5cc8" data-b="#7a5cff" style="--sw-a:#ff5cc8;--sw-b:#7a5cff;" title="Neon"></button>
+        <button class="swatch" data-a="#5ca7ff" data-b="#5cffe3" style="--sw-a:#5ca7ff;--sw-b:#5cffe3;" title="Ocean"></button>
+      </div>
+    </div>
+
+    <div class="prefs-block twofa-block">
+      <label>🔐 Двухэтапная защита аккаунта</label>
+      <p class="share-hint" id="twofa-status-text">Проверяем статус…</p>
+      <button id="twofa-enable-start-btn" type="button" class="confirm-btn">Включить 2FA</button>
+      <button id="twofa-disable-start-btn" type="button" class="confirm-btn cancel" hidden style="background-color:#555;">Отключить 2FA</button>
+
+      <div id="twofa-setup-panel" hidden>
+        <p class="share-hint">Добавь ключ ниже в приложение-аутентификатор (Google Authenticator, Яндекс.Ключ, Authy — вручную, кнопкой «Ввести код»), затем введи 6-значный код из приложения.</p>
+        <div class="copy-row">
+          <input type="text" id="twofa-secret-output" readonly>
+          <button id="twofa-copy-secret" type="button" class="copy-btn">Копировать</button>
+        </div>
+        <input type="text" id="twofa-setup-code" placeholder="Код из приложения" maxlength="6" inputmode="numeric" style="margin-top:8px;">
+        <button id="twofa-confirm-enable-btn" type="button" class="confirm-btn">Подтвердить и включить</button>
+        <span id="twofa-setup-error" class="error-text"></span>
+      </div>
+
+      <div id="twofa-disable-panel" hidden>
+        <input type="text" id="twofa-disable-code" placeholder="Код из приложения, чтобы отключить" maxlength="6" inputmode="numeric">
+        <button id="twofa-confirm-disable-btn" type="button" class="confirm-btn cancel" style="background-color:#555;">Подтвердить отключение</button>
+        <span id="twofa-disable-error" class="error-text"></span>
+      </div>
+    </div>
+
+    <button id="logout-btn" class="confirm-btn cancel" style="margin-top: 5px; background-color: #555;">Выйти из аккаунта</button>
+
+    <div id="owner-settings-block" class="owner-settings-block" hidden>
+      <hr class="settings-divider">
+      <h4>⚙️ Настройки сайта (только вы это видите)</h4>
+
+      <label>Название сайта:</label>
+      <input type="text" id="owner-site-name" placeholder="MyTube">
+
+      <h5>Ссылки на поддержку/донаты</h5>
+      <label>Boosty:</label>
+      <input type="text" id="owner-donate-boosty" placeholder="https://boosty.to/...">
+      <label>DonationAlerts:</label>
+      <input type="text" id="owner-donate-donationalerts" placeholder="https://www.donationalerts.com/r/...">
+      <label>ЮMoney:</label>
+      <input type="text" id="owner-donate-yoomoney" placeholder="https://yoomoney.ru/to/...">
+      <label>PayPal:</label>
+      <input type="text" id="owner-donate-paypal" placeholder="https://paypal.me/...">
+      <label>Крипто-адрес:</label>
+      <input type="text" id="owner-donate-crypto" placeholder="Адрес кошелька">
+      <label>Другое (формат «Название|ссылка»):</label>
+      <input type="text" id="owner-donate-custom" placeholder="Мой сайт|https://...">
+
+      <h5>Реклама (свой HTML/JS-код — например, из AdSense)</h5>
+      <label>Баннер вверху страницы:</label>
+      <textarea id="owner-ad-header" rows="2" placeholder="<script>...AdSense код...</script>"></textarea>
+      <label>Рекламная карточка в ленте:</label>
+      <textarea id="owner-ad-infeed" rows="2"></textarea>
+      <label>Блок под описанием видео:</label>
+      <textarea id="owner-ad-sidebar" rows="2"></textarea>
+
+      <button id="save-owner-settings-btn" class="confirm-btn">Сохранить настройки сайта</button>
+      <span id="owner-settings-status" class="error-text"></span>
+
+      <h5>📢 Магазин рекламы</h5>
+      <p class="share-hint">Любой посетитель может заказать рекламный блок прямо на сайте и оплатить его переводом на карту. Номер ниже виден только вам — на сайте он никогда не показывается текстом, только картинкой при оплате.</p>
+      <label>Номер карты для приёма оплаты:</label>
+      <input type="text" id="owner-card-number" placeholder="0000 0000 0000 0000">
+      <label>Имя получателя:</label>
+      <input type="text" id="owner-card-holder" placeholder="Имя Фамилия">
+      <label>Цена за 1 день размещения (₸):</label>
+      <input type="number" id="owner-ad-price" min="0" value="500" style="max-width:120px;">
+
+      <h5 style="margin-top:14px;">Заявки на рекламу</h5>
+      <div id="owner-ads-list" class="premium-codes-list"></div>
+
+      <h5 style="margin-top:14px;">👥 Все пользователи</h5>
+      <p class="share-hint">Здесь можно изменить имя, аватар или пароль любого пользователя, отключить его 2FA или удалить аккаунт.</p>
+      <div id="owner-users-list" class="premium-codes-list"></div>
+
+      <h5 style="margin-top:14px;">🎬 Все видео</h5>
+      <p class="share-hint">Редактирование и удаление любого видео на сайте, не только своих.</p>
+      <div id="owner-videos-list" class="premium-codes-list"></div>
+    </div>
+  </div>
+</div>
+
+<div id="admin-edit-user-modal" class="modal">
+  <div class="modal-content">
+    <h3>Изменить пользователя</h3>
+    <input type="hidden" id="admin-edit-user-id">
+    <label>Имя пользователя:</label>
+    <input type="text" id="admin-edit-username">
+    <label>Ссылка на аватар:</label>
+    <input type="text" id="admin-edit-avatar" placeholder="/uploads/avatars/...">
+    <label>Новый пароль (необязательно):</label>
+    <input type="password" id="admin-edit-password" placeholder="Оставьте пустым, чтобы не менять">
+    <label class="checkbox-row">
+      <input type="checkbox" id="admin-edit-disable-2fa">
+      <span>Отключить 2FA у этого пользователя</span>
+    </label>
+    <span id="admin-edit-user-error" class="error-text"></span>
+    <button id="admin-edit-user-save-btn" class="confirm-btn">Сохранить</button>
+    <button id="admin-edit-user-delete-btn" class="confirm-btn cancel" style="background-color:#8a1f1f;">Удалить пользователя</button>
+  </div>
+</div>
+
+<div id="admin-edit-video-modal" class="modal">
+  <div class="modal-content">
+    <h3>Изменить видео</h3>
+    <input type="hidden" id="admin-edit-video-id">
+    <label>Название:</label>
+    <input type="text" id="admin-edit-video-title">
+    <label>Описание:</label>
+    <textarea id="admin-edit-video-desc" rows="3"></textarea>
+    <label>Теги (через запятую):</label>
+    <input type="text" id="admin-edit-video-tags">
+    <span id="admin-edit-video-error" class="error-text"></span>
+    <button id="admin-edit-video-save-btn" class="confirm-btn">Сохранить</button>
+    <button id="admin-edit-video-delete-btn" class="confirm-btn cancel" style="background-color:#8a1f1f;">Удалить видео</button>
+  </div>
+</div>
+
+<div id="share-modal" class="modal">
+  <div class="modal-content share-modal-content">
+    <h3>Поделиться видео</h3>
+
+    <label>Ссылка на видео:</label>
+    <div class="copy-row">
+      <input type="text" id="share-link-input" readonly>
+      <button id="copy-share-link" class="copy-btn" type="button">Копировать</button>
+    </div>
+
+    <label>Код для встраивания на сайт (iframe):</label>
+    <div class="copy-row">
+      <textarea id="share-embed-input" readonly rows="3"></textarea>
+      <button id="copy-share-embed" class="copy-btn" type="button">Копировать</button>
+    </div>
+
+    <p class="share-hint">Вставьте этот код на любой сайт — видео будет воспроизводиться там в собственном плеере MyTube, без регистрации у зрителя.</p>
+  </div>
+</div>
+
+<div id="donate-modal" class="modal">
+  <div class="modal-content">
+    <h3>💛 Поддержать</h3>
+    <p class="share-hint">Выберите удобный способ поддержать проект.</p>
+    <div id="donate-links-list" class="donate-links-list">
+      <p class="widget-empty" id="donate-empty-msg">Автор пока не указал способы поддержки.</p>
+    </div>
+  </div>
+</div>
+
+<div id="ads-modal" class="modal">
+  <div class="modal-content">
+    <h3>📢 Разместить рекламу</h3>
+
+    <div id="ads-form-step">
+      <p class="share-hint">Заполните форму — после отправки появится окно оплаты. Реклама публикуется, как только владелец сайта подтвердит платёж.</p>
+      <label>Название/заголовок объявления:</label>
+      <input type="text" id="ad-title" placeholder="Например: Скидка 20% на курс монтажа">
+      <label>Описание:</label>
+      <textarea id="ad-description" rows="2" placeholder="Коротко — о чём реклама"></textarea>
+      <label>Ссылка при клике:</label>
+      <input type="text" id="ad-link" placeholder="https://...">
+      <label>Картинка (ссылка на изображение, необязательно):</label>
+      <input type="text" id="ad-image" placeholder="https://.../banner.png">
+      <label>Место размещения:</label>
+      <select id="ad-placement">
+        <option value="header">Баннер вверху страницы</option>
+        <option value="infeed">Карточка в ленте видео</option>
+        <option value="sidebar">Блок под описанием видео</option>
+      </select>
+      <label>Срок размещения (дней):</label>
+      <input type="number" id="ad-days" min="1" max="30" value="3">
+      <p class="share-hint" id="ad-price-preview"></p>
+      <span id="ad-form-error" class="error-text"></span>
+      <button id="ad-submit-btn" class="confirm-btn">Создать заявку и перейти к оплате</button>
+    </div>
+
+    <div id="ads-payment-step" hidden>
+      <p class="share-hint">Оплатите размещение переводом на карту по реквизитам на карточке ниже, затем нажмите «Я оплатил(а)» — владелец сайта проверит платёж и включит рекламу.</p>
+      <img id="ad-payment-card-img" alt="Реквизиты для оплаты" style="width:100%;border-radius:14px;margin:10px 0;">
+      <button id="ad-mark-paid-btn" class="confirm-btn">Я оплатил(а)</button>
+      <p class="share-hint" id="ad-payment-status"></p>
+    </div>
+
+    <div id="ads-my-list-wrap" style="margin-top:16px;">
+      <h5>Мои заявки</h5>
+      <div id="ads-my-list" class="premium-codes-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Плавающий мини-плеер: перетаскивается и меняет размер за уголок,
+     виден и настроен только тому, кто его открыл -->
+<div id="mini-player" class="mini-player" hidden>
+  <div class="mini-player-drag" id="mini-player-drag">
+    <span id="mini-player-title">Видео</span>
+    <div class="mini-player-btns">
+      <button id="mini-player-expand" title="Развернуть">⛶</button>
+      <button id="mini-player-close" title="Закрыть">✕</button>
+    </div>
+  </div>
+  <video id="mini-video" muted playsinline webkit-playsinline></video>
+  <div class="mini-resize-handle" id="mini-resize-handle" title="Потяните, чтобы изменить размер"></div>
+</div>
+
+<script src="player.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

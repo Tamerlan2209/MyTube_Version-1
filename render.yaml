@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mytube
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Заполни своими значениями после регистрации в Upstash/Cloudinary —
+      # без них данные будут теряться при "засыпании" на бесплатном тарифе.
+      # Подробности в deploy/DEPLOY.md.
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false

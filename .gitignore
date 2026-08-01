@@ -1,0 +1,6 @@
+server/node_modules/
+data/db.json
+uploads/videos/*
+uploads/avatars/*
+!uploads/videos/.gitkeep
+!uploads/avatars/.gitkeep

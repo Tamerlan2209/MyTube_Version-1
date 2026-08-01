@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>MyTube — встроенное видео</title>
+  <link rel="stylesheet" href="./styles/style.css">
+  <style>
+    html, body { background: #000; height: 100%; overflow: hidden; }
+    body { display: flex; }
+    .embed-wrap { position: relative; width: 100%; height: 100svh; background: #000; }
+    .embed-badge {
+      position: absolute; top: 10px; left: 10px; z-index: 6;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 10px 6px 6px; border-radius: 999px;
+      background: rgba(10,10,14,.55); backdrop-filter: blur(8px);
+      color: #fff; text-decoration: none; font-size: .78rem; font-weight: 700;
+      opacity: 0; transition: opacity .25s var(--ease, ease);
+      pointer-events: none;
+    }
+    .embed-wrap:hover .embed-badge, .embed-wrap.ctp-idle .embed-badge { opacity: 0; }
+    .embed-wrap:not(.ctp-idle) .embed-badge { opacity: 1; pointer-events: auto; }
+    .embed-badge img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #333; }
+    .embed-error, .embed-loading {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim, #aaa); font-size: .9rem; text-align: center; padding: 20px; gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="embed-wrap" id="embed-wrap">
+    <div class="embed-loading" id="embed-loading">Загрузка видео…</div>
+    <a class="embed-badge" id="embed-badge" href="./index.html" target="_blank" rel="noopener" hidden>
+      <img id="embed-avatar" src="./images/default-avatar.svg" alt="">
+      <span id="embed-title">MyTube</span>
+    </a>
+  </div>
+
+  <script src="./player.js"></script>
+  <script src="./embed.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#0d0d11">
+  <meta name="color-scheme" content="dark">
+  <title>MyTube — FAQ</title>
+  <link rel="stylesheet" href="./styles/style.css">
+  <style>
+    .faq-page {
+      color: #fff;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 56px 24px 100px;
+      animation: faqFadeIn .5s var(--ease, ease) both;
+    }
+    @keyframes faqFadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+    .faq-page h1 {
+      font-size: 44px;
+      margin-bottom: 14px;
+    }
+    .faq-page > p.lead {
+      color: #aaa;
+      margin-bottom: 40px;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+    .faq-item {
+      background: #2b2b2b;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      transition: transform .2s var(--ease, ease), background .2s;
+    }
+    .faq-item:hover { background: #313131; }
+    .faq-item[open] { transform: scale(1.01); }
+    .faq-item summary {
+      padding: 22px 26px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 19px;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      color: var(--accent, #ff3b5c);
+      font-size: 30px;
+      margin-left: 16px;
+      transition: transform .25s var(--ease, ease);
+    }
+    .faq-item[open] summary::after { content: "−"; transform: rotate(180deg); }
+    .faq-item .faq-answer {
+      padding: 0 26px 26px;
+      color: #ccc;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+    .faq-page section {
+      margin-bottom: 46px;
+    }
+    .faq-page h2 {
+      font-size: 27px;
+      color: var(--accent, #ff3b5c);
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333640;
+      padding-bottom: 12px;
+    }
+    @media (max-width: 560px) {
+      .faq-page { padding: 36px 18px 70px; }
+      .faq-page h1 { font-size: 32px; }
+      .faq-item summary { font-size: 17px; padding: 18px 20px; }
+      .faq-item .faq-answer { font-size: 16px; padding: 0 20px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="./index.html" class="menu_logo"><img src="./images/Без названия93_20260715174426.png" alt="Logo"></a>
+    </div>
+    <div class="header-right">
+      <nav class="menu">
+        <a href="./index.html" class="menu_link">← Главная</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="faq-page">
+    <h1>Часто задаваемые вопросы</h1>
+    <p class="lead">Всё, что нужно знать о том, как устроен MyTube: аккаунт, видео, реклама и безопасность.</p>
+
+    <section>
+      <h2>Аккаунт и безопасность</h2>
+
+      <details class="faq-item">
+        <summary>Как зарегистрироваться?</summary>
+        <div class="faq-answer">
+          Нажми «Войти / Регистрация» в шапке сайта, придумай имя пользователя (@username, 3–20 символов:
+          латинские буквы, цифры и «_») и пароль от 6 символов. После регистрации ты сразу окажешься
+          в своём аккаунте. Настройки сайта видны только аккаунту с именем ровно «MyTube» —
+          остальные видят обычный профиль.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Я забыл пароль — что делать?</summary>
+        <div class="faq-answer">
+          Пока восстановление пароля не реализовано. Если ты забыл пароль, зарегистрируй новый аккаунт
+          с другим именем пользователя.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Как изменить имя или аватар?</summary>
+        <div class="faq-answer">
+          Войди в аккаунт, нажми на свой профиль в шапке сайта — откроются настройки, где можно загрузить
+          новую аватарку и изменить отображаемое имя.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Что такое двухэтапная защита (2FA) и зачем она нужна?</summary>
+        <div class="faq-answer">
+          Это дополнительный шаг при входе: помимо пароля сайт попросит 6-значный код из
+          приложения-аутентификатора (Google Authenticator, Яндекс.Ключ, Authy и похожие). Даже если
+          кто-то узнает твой пароль, без кода из приложения на твоём телефоне войти в аккаунт не получится.
+          Включить её можно в настройках профиля — там же будет показан ключ для подключения приложения
+          и поле для проверочного кода.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Я включил(а) 2FA и не могу войти — что делать?</summary>
+        <div class="faq-answer">
+          Проверь время на телефоне — коды привязаны к текущему времени, и если часы сильно расходятся
+          с реальным, код не подойдёт. Если доступ к приложению-аутентификатору утерян полностью,
+          восстановление пока не реализовано — это как с забытым паролем.
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Видео</h2>
+
+      <details class="faq-item">
+        <summary>Как загрузить видео?</summary>
+        <div class="faq-answer">
+          Войди в аккаунт, открой меню (три полоски в правом верхнем углу — на телефоне это же меню можно
+          вытянуть свайпом от левого края экрана вправо) → «Создать видео», выбери видеофайл с устройства,
+          укажи название и описание, затем нажми «Опубликовать видео». После загрузки видео сразу появится
+          в общей ленте — его увидят все посетители сайта.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Видно ли моё видео другим людям?</summary>
+        <div class="faq-answer">
+          Да. Все опубликованные видео хранятся на сервере сайта, поэтому их видят все, кто заходит
+          на MyTube — так же, как на настоящем YouTube.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Есть ли ограничение на размер файла?</summary>
+        <div class="faq-answer">
+          Да, есть ограничение на размер видеофайла — конкретное значение можно посмотреть в форме
+          загрузки. Оно нужно, чтобы бесплатное хранилище сайта не переполнялось слишком быстро.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Как удалить своё видео?</summary>
+        <div class="faq-answer">
+          На карточке своего видео на главной странице нажми на значок корзины 🗑 и подтверди удаление.
+          Удалить можно только видео, которое загрузил именно ты.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Пропадут ли мои видео и канал, если долго не заходить на сайт?</summary>
+        <div class="faq-answer">
+          Нет. Видео, аккаунты, лайки и комментарии хранятся в постоянном хранилище на сервере, а не во
+          временной памяти — они не удаляются сами по себе из-за долгого отсутствия заходов. Если сайт
+          размещён на Render (или похожем хостинге с бесплатным тарифом), владельцу нужно один раз
+          подключить постоянный диск (Persistent Disk) в настройках хостинга — тогда даже пересборка
+          контейнера после «засыпания» сервиса не сотрёт данные.
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Лайки, подписки и комментарии</h2>
+
+      <details class="faq-item">
+        <summary>Как поставить лайк?</summary>
+        <div class="faq-answer">
+          Открой видео и нажми кнопку «❤️ Лайк» под плеером. Лайк сразу учитывается для всех — счётчик
+          общий, а не только у тебя в браузере.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Как подписаться на автора?</summary>
+        <div class="faq-answer">
+          В окне просмотра видео нажми кнопку «Подписаться» рядом с именем автора. Подписка сохраняется
+          в твоём аккаунте.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Комментарии видят другие пользователи?</summary>
+        <div class="faq-answer">
+          Да, комментарии — общие и появляются у всех в реальном времени, без обновления страницы.
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Реклама и монетизация</h2>
+
+      <details class="faq-item">
+        <summary>Как разместить рекламу на сайте?</summary>
+        <div class="faq-answer">
+          Открой меню (☰ / свайп слева на телефоне) → «Разместить рекламу», заполни форму: заголовок,
+          описание, ссылку, при желании — картинку, выбери место размещения (баннер вверху, карточка в
+          ленте или блок под видео) и срок в днях. После отправки формы сайт покажет карточку с реквизитами
+          для оплаты картой — переведи нужную сумму и нажми «Я оплатил(а)».
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Почему номер для перевода не показан прямо текстом?</summary>
+        <div class="faq-answer">
+          Реквизиты владельца сайта отображаются картинкой, а не текстом, специально — так их нельзя
+          автоматически собрать со страницы. Просто сфотографируй или перепиши номер с карточки при оплате.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Когда реклама появится на сайте?</summary>
+        <div class="faq-answer">
+          После того как ты нажмёшь «Я оплатил(а)», заявка попадёт владельцу сайта на проверку. Как только
+          он подтвердит платёж, реклама автоматически появится в выбранном месте на весь оплаченный срок.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>А как раньше был доступ «премиум за код»?</summary>
+        <div class="faq-answer">
+          Эта функция убрана из MyTube. Вместо неё сайт зарабатывает через донаты и через размещение
+          рекламы (см. выше) — оба способа настраиваются владельцем сайта в его собственном профиле.
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>Технические вопросы</h2>
+
+      <details class="faq-item">
+        <summary>Почему сайт не работает / не даёт зарегистрироваться?</summary>
+        <div class="faq-answer">
+          Скорее всего, не запущен сервер. MyTube работает только тогда, когда на компьютере/хостинге
+          запущена команда <code>npm start</code> в папке <code>server</code>. Подробности — в файле
+          README.md, который идёт вместе с проектом.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>На чём работает сайт?</summary>
+        <div class="faq-answer">
+          MyTube работает на собственном сервере (Node.js) без каких-либо сторонних облачных сервисов —
+          всё хранится локально: аккаунты, видео, лайки и комментарии в обычном файле на диске (или на
+          подключённом постоянном диске хостинга, если он настроен).
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Как открыть меню на телефоне?</summary>
+        <div class="faq-answer">
+          Проведи пальцем от самого левого края экрана вправо — выедет боковая панель со всеми разделами.
+          Так же можно просто нажать на значок из трёх полосок в правом верхнем углу.
+        </div>
+      </details>
+    </section>
+  </main>
+</body>
+</html>
